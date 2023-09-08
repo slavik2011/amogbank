@@ -80,3 +80,12 @@ python main.py
 #### ! Важно !
 
 В flask сервере добавьте ваши amogbank_setup.exe и amogusbank_android.apk для работы скачивания
+
+## Сайт (/site)
+
+### Зависимости
+Их нет.
+
+### Запуск
+
+Запустите файл ```index.html```
