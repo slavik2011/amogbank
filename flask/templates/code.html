@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" integrity="sha384-ZD91RZUdjNA0FSSwoZ+hjslBLy/W/dXilxjFT/lVpDRj6EgK/hlf7b8BqR++Jzxz" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js" integrity="sha384-bRbYXuZVwbZO1ibflBTdBz2z4T4h/i2rtRF0f/RFLIB2MXv1oC3Pl7V7KtrfxtiD" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-python.min.js" integrity="sha384-+vPzv7T8vwqgrzBFeFwWz6qgxuH8NxoxYF6CDjv1iCO5HhBwGhR3JuY78IUSfn4y" crossorigin="anonymous"></script>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+p {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.greeting {
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px);
+}
+
+.code-container {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 2rem;
+  width: 80%;
+  max-width: 800px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(200px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.code-container code {
+  display: block;
+  padding: 1.5rem;
+  overflow-x: auto;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.download-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.download-button:hover {
+  background-color: #0056b3;
+}
+
+.button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-right: 10px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+    
+  </style>
+  <title>Хранилище кода</title>
+</head>
+<body>
+  <header>
+    <h1>Хранилище кода</h1>
+    <p>Здесь хранится исходный код приложения.</p>
+    <p class="greeting">Сделано Славиком, 2023</p>
+    <a href="/" class="button">На главную</a>
+    <a href="/download/code/main" class="download-button">Скачать полный код (.py)</a>
+  </header>
+  <main>
+    <div class="code-container">
+    <h2>Код программы (ПК)</h2>
+    <pre><code class="language-python">
+import ast
+import tkinter
+import requests
+from formation import AppBuilder
+import ctypes
+import os
+import sys
+import webbrowser
+import time
+import threading
+import traceback
+
+version = '7'
+
+t = tkinter.Tk()
+
+def chk_updates():
+    if requests.get(f'''https://amogbank.hey555444.repl.co/getlv''').text != version:
+        ctypes.windll.user32.MessageBoxW(0, f"""Вышло обновление! Обновитесь, и пользуйтесь банком дальше.""", 'Обновление!', 0)
+        webbrowser.open_new_tab('https://amogbank.hey555444.repl.co/')
+        sys.exit()
+
+chk_updates()
+
+def taskofdaye():
+    f = requests.get(f'''https://amogbank.hey555444.repl.co/answer/{tt}/{tod.answer.get()}''').text
+    if f == 'True':
+        tod._app.destroy()
+        chk_bal()
+
+def taskofday():
+    print('> Обнаружена проблема (tod.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/tod.xml', 'templates/tod.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['tod'] = AppBuilder(path="templates/tod.xml")
+    globals()['tod'].connect_callbacks(globals())
+    print('> Окно tod.xml определено успешно.')
+    globals()['tod'].title['text'] = requests.get(f'''https://amogbank.hey555444.repl.co/gettask''').text
+    globals()['tod'].amount['text'] = f'''Цена: {requests.get(f'https://amogbank.hey555444.repl.co/getamount').text} амогусов.'''
+
+def save_acc(login, passw):
+  with open('config/config.tx', 'r', encoding='utf-8') as f:
+    e = ast.literal_eval(f.read())
+  e.update({'saved': {'name': login, 'passw': passw}})
+  os.remove('config/config.tx')
+  with open('config/config.tx', 'w', encoding='utf-8') as f:
+    f.write(str(e))
+
+
+def load_acc():
+    try:
+        with open('config/config.tx', 'r', encoding='utf-8') as f:
+            e = ast.literal_eval(f.read())
+            return e['saved']
+    except Exception as e:
+        print(e)
+        return None
+
+def mistwin():
+    print('> Обнаружена проблема (topplayers.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/topplayers.xml', 'templates/topplayers.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['topplayers'] = AppBuilder(path="templates/topplayers.xml")
+    globals()['topplayers'].connect_callbacks(globals())
+    print('> Окно topplayers.xml определено успешно.')
+    globals()['topplayers'].text['text'] = requests.get(f'''https://amogbank.hey555444.repl.co/getmb''').text
+
+def plusbalwin():
+    print('> Обнаружена проблема (plusbal.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/plusbal.xml', 'templates/plusbal.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['plusbalwin'] = AppBuilder(path="templates/plusbal.xml")
+    globals()['plusbalwin'].connect_callbacks(globals())
+    print('> Окно plusbal.xml определено успешно.')
+
+def plusbal():
+    rep = requests.get(
+        f'''https://amogbank.hey555444.repl.co/plus/{tt}/{ww}/{globals()['plusbalwin'].l.get()}/{globals()['plusbalwin'].amo.get()}''').text
+    if rep == 'True':
+        globals()['plusbalwin']._app.destroy()
+        chk_bal()
+
+def minusbalwin():
+    print('> Обнаружена проблема (minusbal.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/minusbal.xml', 'templates/minusbal.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['minbalwin'] = AppBuilder(path="templates/minusbal.xml")
+    globals()['minbalwin'].connect_callbacks(globals())
+    print('> Окно minusbal.xml определено успешно.')
+
+def minusbal():
+    rep = requests.get(
+        f'''https://amogbank.hey555444.repl.co/minus/{tt}/{ww}/{globals()['minbalwin'].l.get()}/{globals()['minbalwin'].amo.get()}''').text
+    if rep == 'True':
+        globals()['minbalwin']._app.destroy()
+        chk_bal()
+
+def delaccyes():
+    rep = requests.get(
+        f'''https://amogbank.hey555444.repl.co/delacc/{globals()['tt']}/{ww}''').text
+    if rep == 'True':
+        globals()['minbalwin']._app.destroy()
+        restart()
+
+def delaccno():
+    globals()['delaccw']._app.destroy()
+
+def delacc():
+    print('> Обнаружена проблема (delacc.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/delacc.xml', 'templates/delacc.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['delaccw'] = AppBuilder(path="templates/delacc.xml")
+    globals()['delaccw'].connect_callbacks(globals())
+    print('> Окно delacc.xml определено успешно.')
+
+
+def editpassacc():
+    rep = requests.get(f'''https://amogbank.hey555444.repl.co/edp/{globals()['tt']}/{globals()['edpaswin'].oldpass.get()}/{globals()['edpaswin'].newpass.get()}''').text
+    if rep == 'True':
+        globals()['edpaswin']._app.destroy()
+        restart()
+
+def epwin():
+    print('> Обнаружена проблема (editpass.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/editpass.xml', 'templates/editpass.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['edpaswin'] = AppBuilder(path="templates/editpass.xml")
+    globals()['edpaswin'].connect_callbacks(globals())
+    print('> Окно editpass.xml определено успешно.')
+
+def replace_first_line(src_filename, target_filename, replacement_line):
+    f = open(src_filename)
+    first_line, remainder = f.readline(), f.read()
+    t = open(target_filename, "w")
+    t.write(replacement_line + "\n")
+    t.write(remainder)
+    t.close()
+
+def perec():
+    а = globals()['pww'].money.get()
+    ggg = requests.get(f'''https://amogbank.hey555444.repl.co/pb/{globals()['tt']}/{ww}/{а}/{globals()['pww'].nk.get()}''').text
+    if ggg == 'True':
+        globals()['pww']._app.destroy()
+        chk_bal()
+
+def chk_bal():
+    globals()['bal'] = ast.literal_eval(requests.get(f'''https://amogbank.hey555444.repl.co/gb/{globals()['tt']}''').text)
+    globals()['mp'].bl['text'] = globals()['bal']
+    if bal < 0:
+        mp.delacc['state'] = 'disabled'
+    else:
+        mp.delacc['state'] = 'normal'
+
+def opere():
+    print('> Обнаружена проблема (perc.xml). Попытка изменить кодировку на ANSI')
+    replace_first_line('templates/perc.xml', 'templates/perc.xml',
+                       '''<?xml version='1.0' encoding='ANSI'?>''')
+    globals()['pww'] = AppBuilder(path="templates/perc.xml")
+    globals()['pww'].connect_callbacks(globals())
+    print('> Окно perc.xml определено успешно.')
+    globals()['pww'].money['to'] = globals()['bal']
+    if globals()['bal'] < 1:
+        globals()['pww'].per['state'] = 'disabled'
+
+
+def edxit():
+    os.system('taskkill /F /IM app.exe')
+    exit('df')
+    lf._app.destroy()
+    mp._app.destroy()
+
+
+def l():
+    global ww
+    globals()['tt'] = globals()['lw'].l.get()
+    ww = globals()['lw'].p.get()
+    g = requests.get(f'''https://amogbank.hey555444.repl.co/l/{globals()['tt']}/{ww}''')
+    if g.text == 'True':
+        print('> Обнаружена проблема (mainpage.xml). Попытка изменить кодировку на ANSI')
+        replace_first_line('templates/mainpage.xml', 'templates/mainpage.xml',
+                           '''<?xml version='1.0' encoding='ANSI'?>''')
+        globals()['mp'] = AppBuilder(path="templates/mainpage.xml")
+        globals()['mp'].connect_callbacks(globals())
+        print('> Окно mainpage.xml определено успешно.')
+        save_acc(lw.l.get(), lw.p.get())
+        globals()['lw']._app.destroy()
+        globals()['mp'].nk['text'] = globals()['tt']
+        globals()['bal'] = ast.literal_eval(requests.get(f'''https://amogbank.hey555444.repl.co/gb/{globals()['tt']}''').text)
+        globals()['mp'].bl['text'] = globals()['bal']
+        if requests.get(f'''https://amogbank.hey555444.repl.co/isadmin/{tt}''').text == 'False':
+            mp.adminminus['state'] = 'disabled'
+            mp.adminplus['state'] = 'disabled'
+        if bal < 0:
+            mp.delacc['state'] = 'disabled'
+        mp.news['text'] = requests.get(f'''https://amogbank.hey555444.repl.co/getup''').text
+        mp._app.protocol("WM_DELETE_WINDOW", edxit)
+
+
+
+def restart():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
+
+def reg():
+    g = requests.get(f'''https://amogbank.hey555444.repl.co/reg/{globals()['lw'].l.get()}/{globals()['lw'].p.get()}''')
+    if g.text == 'True':
+        l()
+
+
+
+print('> Обнаружена проблема (loginreg.xml). Попытка изменить кодировку на ANSI')
+replace_first_line('templates/loginreg.xml', 'templates/loginreg.xml', '''<?xml version='1.0' encoding='ANSI'?>''')
+globals()['lw'] = AppBuilder(path="templates/loginreg.xml")
+globals()['lw'].connect_callbacks(globals())
+print('> Окно loginreg.xml определено успешно.')
+lw._app.protocol("WM_DELETE_WINDOW", edxit)
+if load_acc() != None:
+    acc = load_acc()
+    lw.l.insert(tkinter.END, acc['name'])
+    lw.p.insert(tkinter.END, acc['passw'])
+
+def background_task():
+    def stop():
+        exit()
+    while True:
+        time.sleep(5)
+        if requests.get(f'''https://amogbank.hey555444.repl.co/getlv''').text != version:
+            webbrowser.open_new_tab('https://amogbank.hey555444.repl.co/download')
+            edxit()
+
+
+b = threading.Thread(target=background_task)
+b.start()
+t.destroy()
+t.mainloop()
+
+    </code></pre>
+</div>
+</main>
+  <script>
+        function expandCode() {
+            var codeBlock = document.querySelector(".code-container code");
+            codeBlock.classList.toggle("expanded");
+        }
+    </script>
+</body>
+</html>
