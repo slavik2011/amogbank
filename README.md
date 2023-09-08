@@ -59,4 +59,24 @@ pip install tkinter, formation, requests, ctypes, threading
 python app.py
 ```
 
-Скоро выложу сайт и сервер
+## Сервер (flask)
+
+Перейдите в папку Flask сервера:
+
+```
+cd server
+```
+### Зависимости
+```
+pip install flask gevent multiprocessing
+```
+
+### Запуск
+
+```
+python main.py
+```
+
+#### ! Важно !
+
+В flask сервере добавьте ваши amogbank_setup.exe и amogusbank_android.apk для работы скачивания
