@@ -59,7 +59,7 @@ pip install tkinter, formation, requests, ctypes, threading
 python app.py
 ```
 
-## Сервер (flask)
+## Сервер (/flask)
 
 Перейдите в папку Flask сервера:
 
